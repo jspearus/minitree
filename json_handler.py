@@ -3,18 +3,9 @@ import os
 
 
 
-def create_theme():
-# Data to be written
-    tmp_theme = {
-        "name": "test theme",
-        "pattern": "2coloralter",
-        "numPerGroup":2,
-        "color 1": "0,100,0",
-        "color 2": "100,0,0"
-    }
-    
+def create_theme(file):
     # Serializing json
-    data = json.dumps(tmp_theme, indent=4)
+    data = json.dumps(file, indent=4)
     print(data)
     if os.path.exists("themes"):
         ...
@@ -40,8 +31,15 @@ def edit_config(config):
         
         
 if __name__ == '__main__':
-    # create_theme()
+    tmp = {
+        "name": "test theme",
+        "pattern": "2coloralter",
+        "numPerGroup":1,
+        "color 1": "0,100,0",
+        "color 2": "100,0,0"
+    }
+    # create_theme(tmp)
     # print(get_theme("tmp"))
-    print(get_config())
+    # print(get_config())
     pass 
 

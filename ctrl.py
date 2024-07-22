@@ -33,6 +33,10 @@ def TwoColorAlter(file):
                 pixel1.write(str.encode(f"1,{i+j},{color2}#"))
         pixel1.write(str.encode("show1#"))
         
+def off():
+    pixel1.write(str.encode("clear1#"))
+    pixel1.write(str.encode("show1#"))
+        
 def custum(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'custom':
@@ -40,5 +44,5 @@ def custum(file):
     
 if __name__ == '__main__':
     # TwoColorAlter('tmp')
-    SolidColor('solidtmp')
+    # SolidColor('solidtmp')
     pass
