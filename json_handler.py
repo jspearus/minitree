@@ -8,7 +8,7 @@ def create_theme():
     tmp_theme = {
         "name": "test theme",
         "pattern": "2coloralter",
-        "numOfPixels":37,
+        "numPerGroup":2,
         "color 1": "0,100,0",
         "color 2": "100,0,0"
     }
@@ -31,11 +31,17 @@ def get_theme(name):
             return json.load(outputfile)
         
 def get_config():
-    pass
+    with open('config.json', 'r') as outputfile:
+            return json.load(outputfile)
 
 def edit_config(config):
     with open('config.json', 'w', encoding='utf-8') as f:
         f.write(config)
         
-print(get_theme("tmp")) 
+        
+if __name__ == '__main__':
+    # create_theme()
+    # print(get_theme("tmp"))
+    print(get_config())
+    pass 
 
