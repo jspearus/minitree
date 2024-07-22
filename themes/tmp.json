@@ -1,0 +1,7 @@
+{
+    "name": "test theme",
+    "pattern": "2coloralter",
+    "numOfPixels": 37,
+    "color 1": "100,100,0",
+    "color 2": "100,0,100"
+}
