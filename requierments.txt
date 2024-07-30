@@ -3,6 +3,3 @@ waitress
 pyserial
 Adafruit-SSD1306
 smbus2
-adafruit-circuitpython-ssd1306
-adafruit-circuitpython-framebuf
-adafruit-circuitpython-busdevice

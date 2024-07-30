@@ -7,20 +7,17 @@
  
 from smbus2 import SMBus
 import time
-import board
-import busio
 import adafruit_ssd1306
  
 addr = 0x8 # bus address
 bus = SMBus(1) # indicates /dev/ic2-1
  
 numb = 1
-# Create the I2C interface.
-i2c = busio.I2C(board.SCL, board.SDA)
+
 
 # Create the SSD1306 OLED class.
 # The first two parameters are the width and height. The third is the I2C interface.
-oled = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
+oled = adafruit_ssd1306.SSD1306_I2C(128, 64, bus)
 
 # Clear the display.
 oled.fill(0)
@@ -28,6 +25,8 @@ oled.show()
 
 # Draw some text.
 oled.text("Hello, World!", 0, 0, 1)
+# Display image.
+oled.show()
  
 print ("Enter 1 for ON or 0 for OFF")
 while numb == 1:
