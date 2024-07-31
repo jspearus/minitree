@@ -38,7 +38,12 @@ if __name__ == '__main__':
         "color 1": "0,100,0",
         "color 2": "100,0,0"
     }
-    # create_theme(tmp)
+    tmp2 = {
+        "name": "test theme 2",
+        "pattern": "solid",
+        "color": "0,100,0",
+    }
+    # create_theme(tmp2)
     # print(get_theme("tmp"))
     # print(get_config())
     pass 

@@ -19,7 +19,8 @@ import subprocess
 numb = 1
 RST = None
 
-
+addr = 0x8 # bus address
+bus = SMBus(1) # indicates /dev/ic2-1
 
 # Create the SSD1306 OLED class.
 # The first two parameters are the width and height. The third is the I2C interface.
@@ -41,7 +42,7 @@ image = Image.new('1', (width, height))
 # Get drawing object to draw on image.
 draw = ImageDraw.Draw(image)
 # First define some constants to allow easy resizing of shapes.
-padding = -2
+padding = 10
 top = padding
 bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
@@ -53,27 +54,24 @@ font = ImageFont.load_default()
 
  # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
 cmd = "hostname -I | cut -d\' \' -f1"
-IP = subprocess.check_output(cmd, shell = True )
+IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
 cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
-CPU = subprocess.check_output(cmd, shell = True )
+CPU = subprocess.check_output(cmd, shell = True ).decode('ASCII')
 cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
-MemUsage = subprocess.check_output(cmd, shell = True )
+MemUsage = subprocess.check_output(cmd, shell = True ).decode('ASCII')
 cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
-Disk = subprocess.check_output(cmd, shell = True )
+Disk = subprocess.check_output(cmd, shell = True ).decode('ASCII')
 
 # Write two lines of text.
 
-draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
-draw.text((x, top+8),     str(CPU), font=font, fill=255)
-draw.text((x, top+16),    str(MemUsage),  font=font, fill=255)
-draw.text((x, top+25),    str(Disk),  font=font, fill=255)
+draw.text((x, top),       "This is a test",  font=font, fill=255)
+draw.text((x, top+12),     str(CPU), font=font, fill=255)
+draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
+draw.text((x, top+29),    str(Disk),  font=font, fill=255)
+draw.text((x, top+39),    "IP: " + str(IP),  font=font, fill=255)
 # Display image.
 oled.image(image)
 oled.display()
-
- 
-addr = 0x8 # bus address
-bus = SMBus(1) # indicates /dev/ic2-1
  
 print ("Enter 1 for ON or 0 for OFF")
 while numb == 1:
@@ -83,7 +81,12 @@ while numb == 1:
     if ledstate == "1":
         bus.write_byte(addr, 0x1) # switch it on
     elif ledstate == "0":
-        bus.write_byte(addr, 0x0) # switch it on
-        bus.write_i2c_block_data(addr, 1, [12, 2, 255])
+        data = "1,1, 3,0,100,0"
+        msg = list(data.encode('ascii'))
+        bus.write_i2c_block_data(addr, 10, msg)
+        time.sleep(.5)
+        data = "show1"
+        msg = list(data.encode('ascii'))
+        bus.write_i2c_block_data(addr, 10, msg)
     else:
         numb = 0
