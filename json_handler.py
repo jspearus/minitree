@@ -32,14 +32,13 @@ def edit_config(config):
         
 if __name__ == '__main__':
     tmp = {
-        "name": "test theme",
-        "pattern": "2coloralter",
+        "pattern": "multicolor",
+        "numOfColor":2,
         "numPerGroup":1,
         "color 1": "0,100,0",
         "color 2": "100,0,0"
     }
     tmp2 = {
-        "name": "test theme 2",
         "pattern": "solid",
         "color": "0,100,0",
     }

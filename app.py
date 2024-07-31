@@ -3,7 +3,7 @@
 # An object of Flask class is our WSGI application.
 from flask import Flask, render_template, request, jsonify
 from waitress import serve
-
+import os
 import Adafruit_SSD1306
 from PIL import Image
 from PIL import ImageDraw
@@ -11,7 +11,7 @@ from PIL import ImageFont
 
 import subprocess
 
-from ctrl import SolidColor, TwoColorAlter, off
+from ctrl import displayTheme, off
 
 
 numb = 1
@@ -51,23 +51,31 @@ font = ImageFont.load_default()
 # current module (__name__) as argument.
 app = Flask(__name__)
 
+
+def getThemeList():
+    folder_path = 'themes/'
+    files = os.listdir(folder_path)
+    themes = []
+    for file in files:
+        themes.append(file.split('.')[0])
+    return themes
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
 # the associated function.
 @app.route('/', methods=['GET', 'POST'])
 # ‘/’ URL is bound with hello_world() function.
 def index():
-    return render_template('index.html')
+    themes = getThemeList()
+    return render_template('index.html', themes=themes)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
+    themes = getThemeList()
     data = request.get_json()
     if data['cmd'] == 'clear':
         off()
-    elif data['cmd'] == '1color':
-        SolidColor('solidtmp')
-    elif data['cmd'] == '2color':
-        TwoColorAlter('tmp')
+    elif data['cmd'] in themes:
+        displayTheme(data['cmd'])
     return jsonify({'status': 'success'})
 
 def refreshScreen():
@@ -83,16 +91,17 @@ def refreshScreen():
 
     # Write two lines of text.
 
-    draw.text((x, top),       "mini TREE",  font=font, fill=255)
-    draw.text((x, top+12),     str(CPU), font=font, fill=255)
-    draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
-    draw.text((x, top+29),    str(Disk),  font=font, fill=255)
-    draw.text((x, top+39),    "IP: " + str(IP),  font=font, fill=255)
+    draw.text((x, top),       "     mini TREE",  font=font, fill=255)
+    # draw.text((x, top+12),     str(CPU), font=font, fill=255)
+    # draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
+    draw.text((x, top+29),"IP: " + str(IP),  font=font, fill=255)
+    draw.text((x, top+39),    "PORT: 8080",  font=font, fill=255)
     # Display image.
     oled.image(image)
     oled.display()
 
 if __name__ == '__main__':
     refreshScreen()
+    themes = getThemeList()
     serve(app, host='0.0.0.0', port=8080)
     

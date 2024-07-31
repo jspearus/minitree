@@ -65,10 +65,10 @@ Disk = subprocess.check_output(cmd, shell = True ).decode('ASCII')
 # Write two lines of text.
 
 draw.text((x, top),       "This is a test",  font=font, fill=255)
-draw.text((x, top+12),     str(CPU), font=font, fill=255)
-draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
+# draw.text((x, top+12),     str(CPU), font=font, fill=255)
+# draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
 draw.text((x, top+29),    str(Disk),  font=font, fill=255)
-draw.text((x, top+39),    "IP: " + str(IP),  font=font, fill=255)
+draw.text((x, top+39),    "IP: " + str(IP) + ":8080",  font=font, fill=255)
 # Display image.
 oled.image(image)
 oled.display()
