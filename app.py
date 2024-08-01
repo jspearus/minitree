@@ -4,6 +4,7 @@
 from flask import Flask, render_template, request, jsonify
 from waitress import serve
 import os
+import json
 import Adafruit_SSD1306
 from PIL import Image
 from PIL import ImageDraw
@@ -12,7 +13,7 @@ from PIL import ImageFont
 import subprocess
 
 from ctrl import displayTheme, off
-from json_handler import get_config, edit_config
+from json_handler import get_config, edit_config, create_theme
 
 
 numb = 1
@@ -73,6 +74,23 @@ def index():
 # ‘/’ URL is bound with hello_world() function.
 def themes():
     themes = getThemeList()
+    if request.method == 'POST':
+        data = request.get_json()
+        # todo convert color value from hex to RGB
+        file = json.loads(data)
+        if file['pattern'] == 'solid':
+            color = file['color']
+            color = color[1:] if len(color) > 1 else ""
+            colors = []
+            dec_colors = []
+            for i in range(0, len(color), 2):
+                colors.append(color[i:i+2])
+            for color in colors:
+                color = int(color, 16)
+                dec_colors.append(color)
+            color = f"{dec_colors[0]},{dec_colors[1]},{dec_colors[2]}"
+        file['color'] = color
+        create_theme(file)
     return render_template('themes.html', themes=themes)
 
 @app.route('/config', methods=['GET', 'POST'])

@@ -1,3 +1,4 @@
+
 console.log("mini tree online");
 async function sendData(cmd) {
     const data = { cmd: cmd };
@@ -29,3 +30,4 @@ async function getDropdownValue() {
     const result = await response.json();
     console.log(result['status']);
 }
+

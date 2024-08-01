@@ -1,7 +1,37 @@
 {% extends 'base.html' %}
-
-
 {% block body %}
 <h1>Theme Creator</h1>
-{{themes}}
+<div class="form-container">
+    <form id="themeForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="pattern">Pattern:</label>
+            <select id="pattern" name="pattern" required>
+                <option value="">--Please choose an option--</option>
+                <option value="solid">Solid</option>
+                <option value="2Color">2 Color</option>
+                <option value="3Color">3 Color</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="pattern">LEDs Per Group:</label>
+            <input type="number" id="leds" name="numPerGroup" required>
+        </div>
+        <div class="form-group">
+            <label for="color">Pick a color:</label>
+            <input type="color" id="color" name="color" value="#000000">
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="submitForm()">Submit</button>
+        </div>
+        <div id="colorDisplay" class="color-display"></div>
+    </form>
+</div>
 {% endblock body %}
+
+{% block script %}
+<script src="{{url_for('static', filename='scripts/theme.js')}}"></script>
+{% endblock script %}

@@ -6,13 +6,12 @@ import os
 def create_theme(file):
     # Serializing json
     data = json.dumps(file, indent=4)
-    print(data)
     if os.path.exists("themes"):
         ...
     else:
         os.mkdir("themes")
-        
-    with open('themes/tmp.json', 'w', encoding='utf-8') as f:
+    
+    with open(f"themes/{file['name']}.json", 'w', encoding='utf-8') as f:
         f.write(data)
 
 def get_theme(name):
