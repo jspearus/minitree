@@ -12,6 +12,7 @@ from PIL import ImageFont
 import subprocess
 
 from ctrl import displayTheme, off
+from json_handler import get_config, edit_config
 
 
 numb = 1
@@ -67,6 +68,23 @@ def getThemeList():
 def index():
     themes = getThemeList()
     return render_template('index.html', themes=themes)
+
+@app.route('/themes', methods=['GET', 'POST'])
+# ‘/’ URL is bound with hello_world() function.
+def themes():
+    themes = getThemeList()
+    return render_template('themes.html', themes=themes)
+
+@app.route('/config', methods=['GET', 'POST'])
+# ‘/’ URL is bound with hello_world() function.
+def config():
+    config = get_config()
+    return render_template('config.html', config=config)
+
+@app.route('/events', methods=['GET', 'POST'])
+# ‘/’ URL is bound with hello_world() function.
+def events():
+    return render_template('event.html')
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
