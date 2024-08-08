@@ -61,6 +61,20 @@ def getThemeList():
     for file in files:
         themes.append(file.split('.')[0])
     return themes
+
+def convert2rgb(file, key):
+    color = file[key]
+    color = color[1:] if len(color) > 1 else ""
+    colors = []
+    dec_colors = []
+    for i in range(0, len(color), 2):
+        colors.append(color[i:i+2])
+    for color in colors:
+        color = int(color, 16)
+        dec_colors.append(color)
+    color = f"{dec_colors[0]},{dec_colors[1]},{dec_colors[2]}"
+    file[key] = color
+    
 # The route() function of the Flask class is a decorator, 
 # which tells the application which URL should call 
 # the associated function.
@@ -79,18 +93,21 @@ def themes():
         # todo convert color value from hex to RGB
         file = json.loads(data)
         if file['pattern'] == 'solid':
-            color = file['color']
-            color = color[1:] if len(color) > 1 else ""
-            colors = []
-            dec_colors = []
-            for i in range(0, len(color), 2):
-                colors.append(color[i:i+2])
-            for color in colors:
-                color = int(color, 16)
-                dec_colors.append(color)
-            color = f"{dec_colors[0]},{dec_colors[1]},{dec_colors[2]}"
-        file['color'] = color
-        create_theme(file)
+            convert2rgb(file, 'color1')
+            del file['numPerGroup']
+            del file['color2']
+            del file['color3']
+            create_theme(file)
+        elif file['pattern'] == '2Color':
+            convert2rgb(file, 'color1')
+            convert2rgb(file, 'color2')
+            del file['color3']
+            create_theme(file)
+        elif file['pattern'] == '3Color':
+            convert2rgb(file, 'color1')
+            convert2rgb(file, 'color2')
+            convert2rgb(file, 'color3')
+            create_theme(file)
     return render_template('themes.html', themes=themes)
 
 @app.route('/config', methods=['GET', 'POST'])

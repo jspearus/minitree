@@ -30,57 +30,77 @@ def displayTheme(file):
         pattern = get_theme(file)["pattern"]
         if pattern == 'solid':
             SolidColor(file)
-        elif pattern == 'multicolor':
+        elif pattern == '2Color':
             TwoColorAlter(file)
+        elif pattern == '3Color':
+            ThreeColorAlter(file)
         
 def SolidColor(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'solid':
-        color = get_theme(file)["color"]
+        color = get_theme(file)["color1"]
         for i in range(37):
             data = f",1,{i},{color}"
-            msg = list(data.encode('ascii'))
-            bus.write_i2c_block_data(addr, 10, msg)
-            time.sleep(.001)
+            send_data(data)
         data = "show1"
-        msg = list(data.encode('ascii'))
-        bus.write_i2c_block_data(addr, 10, msg)  
+        send_data(data)
     
 def TwoColorAlter(file):
     pattern = get_theme(file)["pattern"]
-    if pattern == 'multicolor':
-        color1 = get_theme(file)["color 1"]
-        color2 = get_theme(file)["color 2"]
-        step = get_theme(file)["numPerGroup"]
+    if pattern == '2Color':
+        color1 = get_theme(file)["color1"]
+        color2 = get_theme(file)["color2"]
+        step = int(get_theme(file)["numPerGroup"])
         for i in range(0, 37, step ):
             for j in range(i, i+step):
                 data = f",1,{i+j},{color1}"
-                msg = list(data.encode('ascii'))
-                bus.write_i2c_block_data(addr, 10, msg)
-                time.sleep(.001)
+                send_data(data)
             for j in range(i+step, i+step+step):
                 data = f",1,{i+j},{color2}"
-                msg = list(data.encode('ascii'))
-                bus.write_i2c_block_data(addr, 10, msg)
-                time.sleep(.001)
+                send_data(data)
         data = "show1"
-        msg = list(data.encode('ascii'))
-        bus.write_i2c_block_data(addr, 10, msg)
+        send_data(data)
+        
+def ThreeColorAlter(file):
+    pattern = get_theme(file)["pattern"]
+    if pattern == '3Color':
+        color1 = get_theme(file)["color1"]
+        color2 = get_theme(file)["color2"]
+        color3 = get_theme(file)["color3"]
+        step = int(get_theme(file)["numPerGroup"])
+        for i in range(0, 37, step*3):
+            print(f"i: {i}")
+            for j in range(i, i+step):
+                print(f"j: {j}")
+                data = f",1,{j},{color1}"
+                send_data(data)
+            print("k now")
+            for k in range(i+step, i+step+step):
+                print(f"k: {k}")
+                data = f",1,{k},{color2}"
+                send_data(data)
+            for l in range(i+step+step, i+step+step+step):
+                data = f",1,{l},{color3}"
+                send_data(data)
+            
+        data = "show1"
+        send_data(data)
         
 def off():
     data = "clear1"
-    msg = list(data.encode('ascii'))
-    bus.write_i2c_block_data(addr, 10, msg)
-    time.sleep(.001)
+    send_data(data)
     data = "show1"
-    msg = list(data.encode('ascii'))
-    bus.write_i2c_block_data(addr, 10, msg)
+    send_data(data)
         
 def custum(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'custom':
         ...
-    
+        
+def send_data(data):
+    msg = list(data.encode('ascii'))
+    bus.write_i2c_block_data(addr, 10, msg)
+    time.sleep(.001)
 if __name__ == '__main__':
     # TwoColorAlter('tmp')
     # SolidColor('solidtmp')
