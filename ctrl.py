@@ -69,14 +69,10 @@ def ThreeColorAlter(file):
         color3 = get_theme(file)["color3"]
         step = int(get_theme(file)["numPerGroup"])
         for i in range(0, 37, step*3):
-            print(f"i: {i}")
             for j in range(i, i+step):
-                print(f"j: {j}")
                 data = f",1,{j},{color1}"
                 send_data(data)
-            print("k now")
             for k in range(i+step, i+step+step):
-                print(f"k: {k}")
                 data = f",1,{k},{color2}"
                 send_data(data)
             for l in range(i+step+step, i+step+step+step):
