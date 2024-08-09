@@ -36,7 +36,7 @@ async function submitForm() {
     event.preventDefault();
     const formData = new FormData(form);
     const formDataObj = {};
-
+    console.log(formData)
     // Convert FormData to a JSON object
     formData.forEach((value, key) => {
         formDataObj[key] = value;

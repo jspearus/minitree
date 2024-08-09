@@ -3,7 +3,7 @@ import serial
 import os
 import time
 from smbus2 import SMBus
-from json_handler import get_theme
+from theme_handler import get_theme
 
 addr = 0x8 # bus address
 bus = SMBus(1) # indicates /dev/ic2-1

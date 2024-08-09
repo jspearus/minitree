@@ -13,7 +13,9 @@ from PIL import ImageFont
 import subprocess
 
 from ctrl import displayTheme, off
-from json_handler import get_config, edit_config, create_theme
+from theme_handler import  create_theme
+from events_handler import create_event
+from config import get_config, edit_config
 
 
 numb = 1
@@ -121,7 +123,8 @@ def config():
 def events():
     if request.method == 'POST':
         data = request.get_json()
-        print(f"event data: {data}")    
+        file = json.loads(data)
+        create_event(file)   
     themes = getThemeList()
     themes.append('off')
     return render_template('event.html', themes=themes)
