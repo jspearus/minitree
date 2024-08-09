@@ -117,9 +117,14 @@ def config():
     return render_template('config.html', config=config)
 
 @app.route('/events', methods=['GET', 'POST'])
-# ‘/’ URL is bound with hello_world() function.
+# ‘/’ URL is bound with hello_world() function
 def events():
-    return render_template('event.html')
+    if request.method == 'POST':
+        data = request.get_json()
+        print(f"event data: {data}")    
+    themes = getThemeList()
+    themes.append('off')
+    return render_template('event.html', themes=themes)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():

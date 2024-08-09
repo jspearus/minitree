@@ -3,4 +3,50 @@
 
 {% block body %}
 <h1>Events</h1>
+<div class="form-container">
+    <form id="eventForm">
+        <div class="form-group">
+            <label for="name">Event Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <select id="themeSelect" name="themeSelect">
+            {% for theme in themes %}
+            <option value="{{ theme}}">{{ theme}}</option>
+            {% endfor %}
+        </select>
+        <label for="freq">Select Frequency:</label>
+        <select id="freq" name="freq">
+            <option value="once">once</option>
+            <option value="day">Daily</option>
+            <option value="week">weekly</option>
+        </select>
+        <br><br>
+        <label id="date-label" for="event-date">Choose an Event date:</label>
+        <input type="date" id="event-date" name="event-date"> <!-- Latest selectable date -->
+        <br><br>
+        <label id="week-label" for="weekday">Choose a weekday:</label>
+        <select name="weekday" id="weekday">
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+        </select>
+        <br><br>
+        <label for="event-time">Choose an Event time:</label>
+        <input type="time" id="event-time" name="event-time" value="14:30">
+        <br><br>
+        <div class="form-group">
+            <button type="button" onclick="submitForm()">Submit</button>
+        </div>
+
+    </form>
+</div>
+
 {% endblock body %}
+
+{% block script %}
+<script src="{{url_for('static', filename='scripts/event.js')}}"></script>
+{% endblock script %}
