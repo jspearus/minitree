@@ -3,31 +3,32 @@
 
 const freq = document.getElementById('freq');
 
-const date = document.getElementById('event-date');
-const datelabel = document.getElementById('date-label');
+const startDate = document.getElementById('start-block');
+const stopDate = document.getElementById('stop-block');
+const week = document.getElementById('week-block');
 
-const week = document.getElementById('weekday');
-const weeklabel = document.getElementById('week-label');
 
 document.getElementById('freq').addEventListener('change', function () {
     let selectedValue = this.value;
     if (selectedValue == 'once') {
         week.style.display = 'none';
-        weeklabel.style.display = 'none';
-        date.style.display = 'block';
-        datelabel.style.display = 'block';
+        startDate.style.display = 'block';
+        stopDate.style.display = 'none';
     }
     else if (selectedValue == 'day') {
         week.style.display = 'none';
-        weeklabel.style.display = 'none';
-        date.style.display = 'none';
-        datelabel.style.display = 'none';
+        startDate.style.display = 'none';
+        stopDate.style.display = 'none';
     }
     else if (selectedValue == 'week') {
         week.style.display = 'block';
-        weeklabel.style.display = 'block';
-        date.style.display = 'none';
-        datelabel.style.display = 'none';
+        startDate.style.display = 'none';
+        stopDate.style.display = 'none';
+    }
+    else if (selectedValue == 'range') {
+        week.style.display = 'block';
+        startDate.style.display = 'block';
+        stopDate.style.display = 'block';
     }
 });
 

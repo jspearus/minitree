@@ -88,7 +88,7 @@ def off():
     data = "show1"
     send_data(data)
         
-def custum(file):
+def custom(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'custom':
         ...

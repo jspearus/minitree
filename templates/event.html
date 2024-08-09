@@ -16,32 +16,48 @@
         </select>
         <label for="freq">Select Frequency:</label>
         <select id="freq" name="freq">
-            <option value="once">once</option>
+            <option value="once">Once</option>
             <option value="day">Daily</option>
-            <option value="week">weekly</option>
+            <option value="week">Weekly</option>
+            <option value="range">Range</option>
         </select>
-        <br><br>
-        <label id="date-label" for="event-date">Choose an Event date:</label>
-        <input type="date" id="event-date" name="event-date"> <!-- Latest selectable date -->
-        <br><br>
-        <label id="week-label" for="weekday">Choose a weekday:</label>
-        <select name="weekday" id="weekday">
-            <option value="monday">Monday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="wednesday">Wednesday</option>
-            <option value="thursday">Thursday</option>
-            <option value="friday">Friday</option>
-            <option value="saturday">Saturday</option>
-            <option value="sunday">Sunday</option>
-        </select>
-        <br><br>
-        <label for="event-time">Choose an Event time:</label>
-        <input type="time" id="event-time" name="event-time" value="14:30">
-        <br><br>
-        <div class="form-group">
-            <button type="button" onclick="submitForm()">Submit</button>
+
+        <div id="start-block">
+            <br><br>
+            <label id="start-date-label" for="start-event-date">Choose an Event Start date:</label>
+            <input type="date" id="start-event-date" name="start-event-date"> <!-- Latest selectable date -->
+        </div>
+        <div id="stop-block" style="display: none">
+            <br><br>
+            <label id="stop-date-label" for="stop-event-date">Choose an Event Stop date:</label>
+            <input type="date" id="stop-event-date" name="stop-event-date"> <!-- Latest selectable date -->
         </div>
 
+        <div id="week-block" style="display: none">
+            <br><br>
+            <label id="week-label" for="weekday">Choose a weekday:</label>
+            <select name="weekday" id="weekday">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+                <option value="all">All</option>
+            </select>
+        </div>
+
+        <div id="time-block">
+            <br><br>
+            <label for="event-time">Choose an Event time:</label>
+            <input type="time" id="event-time" name="event-time" value="14:30">
+            <br><br>
+            <div class="form-group">
+                <button type="button" onclick="submitForm()">Submit</button>
+            </div>
+
+        </div>
     </form>
 </div>
 

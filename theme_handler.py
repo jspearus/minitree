@@ -19,6 +19,13 @@ def get_theme(name):
     if file:
         with open(file, 'r') as outputfile:
             return json.load(outputfile)
+def get_all_themes():
+    folder_path = 'themes/'
+    files = os.listdir(folder_path)
+    themes = []
+    for file in files:
+        themes.append(file.split('.')[0])
+    return themes
         
 def delete_theme(name):
     file = f"themes/{name}.json"

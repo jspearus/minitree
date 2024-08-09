@@ -13,8 +13,8 @@ from PIL import ImageFont
 import subprocess
 
 from ctrl import displayTheme, off
-from theme_handler import  create_theme
-from events_handler import create_event
+from theme_handler import  create_theme, get_all_themes
+from events_handler import create_event, get_next_event, get_all_events
 from config import get_config, edit_config
 
 
@@ -56,13 +56,7 @@ font = ImageFont.load_default()
 app = Flask(__name__)
 
 
-def getThemeList():
-    folder_path = 'themes/'
-    files = os.listdir(folder_path)
-    themes = []
-    for file in files:
-        themes.append(file.split('.')[0])
-    return themes
+
 
 def convert2rgb(file, key):
     color = file[key]
@@ -81,15 +75,15 @@ def convert2rgb(file, key):
 # which tells the application which URL should call 
 # the associated function.
 @app.route('/', methods=['GET', 'POST'])
-# ‘/’ URL is bound with hello_world() function.
 def index():
-    themes = getThemeList()
-    return render_template('index.html', themes=themes)
+    themes = get_all_themes()
+    events = get_all_events()
+    nextEvent = get_next_event()
+    return render_template('index.html', themes=themes,  events=events, nextEvent=nextEvent)
 
 @app.route('/themes', methods=['GET', 'POST'])
-# ‘/’ URL is bound with hello_world() function.
 def themes():
-    themes = getThemeList()
+    themes = get_all_themes()
     if request.method == 'POST':
         data = request.get_json()
         # todo convert color value from hex to RGB
@@ -113,25 +107,23 @@ def themes():
     return render_template('themes.html', themes=themes)
 
 @app.route('/config', methods=['GET', 'POST'])
-# ‘/’ URL is bound with hello_world() function.
 def config():
     config = get_config()
     return render_template('config.html', config=config)
 
 @app.route('/events', methods=['GET', 'POST'])
-# ‘/’ URL is bound with hello_world() function
 def events():
     if request.method == 'POST':
         data = request.get_json()
         file = json.loads(data)
         create_event(file)   
-    themes = getThemeList()
+    themes = get_all_themes()
     themes.append('off')
     return render_template('event.html', themes=themes)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
-    themes = getThemeList()
+    themes = get_all_themes()
     data = request.get_json()
     if data['cmd'] == 'clear':
         off()
@@ -163,6 +155,6 @@ def refreshScreen():
 
 if __name__ == '__main__':
     refreshScreen()
-    themes = getThemeList()
+    themes = get_all_themes()
     serve(app, host='0.0.0.0', port=8080)
     
