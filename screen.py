@@ -62,5 +62,5 @@ def refreshScreen():
     # Display image.
     oled.image(image)
     oled.display()
-
-refreshScreen()
+if __name__ == '__main__':
+    refreshScreen()
