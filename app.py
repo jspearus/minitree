@@ -10,7 +10,6 @@ from datetime import timedelta
 import json
 
 import subprocess
-
 from screen import refreshScreen
 from ctrl import displayTheme, off
 from theme_handler import  create_theme, get_all_themes
@@ -18,12 +17,14 @@ from events_handler import create_event, get_next_event, get_all_events
 from config import get_config, edit_config
 from scheduler import runUpdateDatetime
 
+
 numb = 1
 RST = None
 connected = True
 curEvent = ''
 autoMode = ''
 ledType = ''
+
 
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
@@ -120,9 +121,8 @@ def ctrl():
     return jsonify({'status': 'success'})
 
 
-
 if __name__ == '__main__':
-    # refreshScreen()
+    refreshScreen()
     update_config()
     themes = get_all_themes()
     runUpdateDatetime()
