@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import serial
 import os
 import time
 from smbus2 import SMBus
@@ -11,14 +10,6 @@ time.sleep(1)
 if not bus:
     bus.open(1)
 
-# pixel1 = serial.Serial(
-#         port='/dev/ttyS0', #Replace ttyS0 with ttyAM0 for Pi1,Pi2,Pi0
-#         baudrate = 115200,
-#         parity=serial.PARITY_NONE,
-#         stopbits=serial.STOPBITS_ONE,
-#         bytesize=serial.EIGHTBITS,
-#         timeout=1
-# )
 def getThemeList():
     folder_path = 'themes/'
     files = os.listdir(folder_path)
@@ -29,6 +20,7 @@ def getThemeList():
 
 def displayTheme(file):
     themes = getThemeList()
+    print(f'theme: {file}')
     if file in themes:
         pattern = get_theme(file)["pattern"]
         if pattern == 'solid':
@@ -37,6 +29,8 @@ def displayTheme(file):
             TwoColorAlter(file)
         elif pattern == '3Color':
             ThreeColorAlter(file)
+    if file == 'off':
+        off()
         
 def SolidColor(file):
     
@@ -106,7 +100,6 @@ def send_data(data):
         # handle the exception
         print("An exception occurred:", type(error).__name__) 
         print("message:", error) 
-    time.sleep(.001)
     # bus.close()
 if __name__ == '__main__':
     # TwoColorAlter('tmp')

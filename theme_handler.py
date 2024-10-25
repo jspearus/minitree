@@ -6,21 +6,21 @@ import os
 def create_theme(file):
     # Serializing json
     data = json.dumps(file, indent=4)
-    if os.path.exists("themes"):
+    if os.path.exists("/home/jeff/minitree/themes"):
         ...
     else:
-        os.mkdir("themes")
+        os.mkdir("/home/jeff/minitree/themes")
     
-    with open(f"themes/{file['name']}.json", 'w', encoding='utf-8') as f:
+    with open(f"/home/jeff/minitree/themes/{file['name']}.json", 'w', encoding='utf-8') as f:
         f.write(data)
 
 def get_theme(name):
-    file = f"themes/{name}.json"
+    file = f"/home/jeff/minitree/themes/{name}.json"
     if file:
         with open(file, 'r') as outputfile:
             return json.load(outputfile)
 def get_all_themes():
-    folder_path = 'themes/'
+    folder_path = '/home/jeff/minitree/themes/'
     files = os.listdir(folder_path)
     themes = []
     for file in files:
@@ -28,7 +28,7 @@ def get_all_themes():
     return themes
         
 def delete_theme(name):
-    file = f"themes/{name}.json"
+    file = f"/home/jeff/minitree/themes/{name}.json"
     if file:
         os.remove(file)
             

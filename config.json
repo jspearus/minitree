@@ -1,5 +1,6 @@
 {
     "current_theme": "red",
     "display_status": "on",
-    "auto_mode": "off"
+    "auto_mode": "on",
+    "led_type": "rgb"
 }

@@ -42,6 +42,8 @@ async function submitForm() {
     formData.forEach((value, key) => {
         formDataObj[key] = value;
     });
+    formDataObj['status'] = 'new';
+    // todo add status key
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
     const response = await fetch('http://192.168.1.173:8080/events', {
