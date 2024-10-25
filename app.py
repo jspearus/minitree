@@ -155,7 +155,7 @@ def refreshScreen():
     oled.display()
 
 if __name__ == '__main__':
-    # refreshScreen()
+    refreshScreen()
     themes = get_all_themes()
     serve(app, host='0.0.0.0', port=8080)
     
