@@ -7,7 +7,7 @@ import os
 import json
 
 import subprocess
-from screen.py import refreshScreen
+from screen import refreshScreen
 from ctrl import displayTheme, off
 from theme_handler import  create_theme, get_all_themes
 from events_handler import create_event, get_next_event, get_all_events
