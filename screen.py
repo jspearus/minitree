@@ -20,25 +20,28 @@ oled.begin()
 oled.clear()
 oled.display()
 
+
+# Create blank image for drawing.
+# Make sure to create image with mode '1' for 1-bit color.
+width = oled.width
+height = oled.height
+image = Image.new('1', (width, height))
+
+# Get drawing object to draw on image.
+draw = ImageDraw.Draw(image)
+# First define some constants to allow easy resizing of shapes.
+padding = 10
+top = padding
+bottom = height-padding
+# Move left to right keeping track of the current x position for drawing shapes.
+x = 0
+
+
+# Load default font.
+font = ImageFont.load_default()
+
+
 def refreshScreen():
-    # Create blank image for drawing.
-    # Make sure to create image with mode '1' for 1-bit color.
-    width = oled.width
-    height = oled.height
-    image = Image.new('1', (width, height))
-    
-    # Get drawing object to draw on image.
-    draw = ImageDraw.Draw(image)
-    # First define some constants to allow easy resizing of shapes.
-    padding = 10
-    top = padding
-    bottom = height-padding
-    # Move left to right keeping track of the current x position for drawing shapes.
-    x = 0
-    
-    
-    # Load default font.
-    font = ImageFont.load_default()
     # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
@@ -51,7 +54,7 @@ def refreshScreen():
 
     # Write two lines of text.
 
-    draw.text((x, top),       "     mini TREE",  font=font, fill=255)
+    draw.text((x, top),       "     LVM TREE",  font=font, fill=255)
     # draw.text((x, top+12),     str(CPU), font=font, fill=255)
     # draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
     draw.text((x, top+29),"IP: " + str(IP),  font=font, fill=255)
@@ -59,6 +62,5 @@ def refreshScreen():
     # Display image.
     oled.image(image)
     oled.display()
-    
-if __name__ == '__main__':
-    refreshScreen()
+
+refreshScreen()
