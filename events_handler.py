@@ -22,13 +22,13 @@ def create_event(file):
 def get_next_event():
     global next_event
     time_format = "%H:%M"
-    files = os.listdir('events/')
+    files = os.listdir('/home/jeff/minitree/events/')
     current_datetime = datetime.now()
     current_time = current_datetime.strftime("%H:%M")
     current_time = datetime.strptime(current_time, time_format).time()
     # print(f'time: {current_time}')
     for file in files:
-        with open('events/'+file, 'r') as outputfile:
+        with open('/home/jeff/minitree/events/'+file, 'r') as outputfile:
             event =json.load(outputfile)
             eventTime = datetime.strptime(event['event-time'], time_format).time()
             nextTime = datetime.strptime(next_event['event-time'], time_format).time()

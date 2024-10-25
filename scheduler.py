@@ -45,7 +45,7 @@ def update_datetime():  # runs in thread
                 print(f"new event: {event['name']}") 
             else:
                 event = get_next_event()
-                print(f"new event: {event['name']}") 
+                # print(f"new event: {event['name']}") 
                 # eventTime = datetime.strptime(event['event-time'], time_format).time()
                 # print(f"new event: {event}")
                 # print(f"eventTime: {eventTime}")
