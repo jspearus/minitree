@@ -5,7 +5,7 @@ console.log("mini tree online");
 async function sendData(cmd) {
     const data = { cmd: cmd };
 
-    const response = await fetch('http://${IPaddr}:8080/ctrl', {
+    const response = await fetch('http://192.168.1.158:8080/ctrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ async function getDropdownValue() {
     const selectedValue = dropdown.value;
     const data = { cmd: selectedValue };
 
-    const response = await fetch('http://${IPaddr}:8080/ctrl', {
+    const response = await fetch('http://192.168.1.158:8080/ctrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
