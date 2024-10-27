@@ -46,7 +46,7 @@ async function submitForm() {
     // todo add status key
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
-    const response = await fetch('http://192.168.1.158:8080/events', {
+    const response = await fetch('http://192.168.1.173:8080/events', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
