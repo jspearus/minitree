@@ -10,7 +10,7 @@ const colorLabel3 = document.getElementById('label3')
 
 const numLED = document.getElementById('numLEDS')
 
-let IP = "192.168.1.158";
+let IPaddr = "192.168.1.158";
 
 
 document.getElementById('pattern').addEventListener('change', function () {
@@ -61,7 +61,7 @@ async function submitForm() {
     });
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
-    const response = await fetch('http://${IP}:8080/themes', {
+    const response = await fetch('http://${IPaddr}:8080/themes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

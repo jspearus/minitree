@@ -6,7 +6,7 @@ const freq = document.getElementById('freq');
 const startDate = document.getElementById('start-block');
 const stopDate = document.getElementById('stop-block');
 const week = document.getElementById('week-block');
-let IP = "192.168.1.158";
+let IPIPaddr = "192.168.1.158";
 
 document.getElementById('freq').addEventListener('change', function () {
     let selectedValue = this.value;
@@ -46,7 +46,7 @@ async function submitForm() {
     // todo add status key
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
-    const response = await fetch('http://${IP}:8080/events', {
+    const response = await fetch('http://${IPaddr}:8080/events', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
