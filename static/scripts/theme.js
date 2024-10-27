@@ -61,7 +61,7 @@ async function submitForm() {
     });
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
-    const response = await fetch('http://${IPaddr}:8080/themes', {
+    const response = await fetch('http://192.168.1.158:8080/themes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
