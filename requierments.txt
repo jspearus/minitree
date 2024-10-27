@@ -3,3 +3,4 @@ waitress
 pyserial
 Adafruit-SSD1306
 smbus2
+colorama
