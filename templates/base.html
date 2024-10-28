@@ -16,12 +16,14 @@
         <a href="/events">Events</a>
         <a href="/config">Settings</a>
     </div>
+    <div id="dataContainer" ip_var="{{ IP }}" port_var="{{ PORT }}" style="display: none;"></div>
 
     {% block body %}
 
     {% endblock body %}
 
-    <script src="{{url_for('static', filename='scripts/main.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/main.js')}}">
+    </script>
 
     {% block script %}
 

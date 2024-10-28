@@ -24,6 +24,7 @@ connected = True
 curEvent = ''
 autoMode = ''
 ledType = ''
+PORT = 7233
 
 
 # Flask constructor takes the name of 
@@ -63,10 +64,16 @@ def convert2rgb(file, key):
 # the associated function.
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    global PORT
     themes = get_all_themes()
     events = get_all_events()
     nextEvent = get_next_event()
-    return render_template('index.html', themes=themes,  events=events, nextEvent=nextEvent)
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    
+    return render_template('index.html', themes=themes,  
+                           events=events, nextEvent=nextEvent, 
+                           IP=IP, PORT=PORT)
 
 @app.route('/themes', methods=['GET', 'POST'])
 def themes():
@@ -126,5 +133,5 @@ if __name__ == '__main__':
     update_config()
     themes = get_all_themes()
     runUpdateDatetime()
-    serve(app, host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=PORT)
     

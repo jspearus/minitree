@@ -1,11 +1,13 @@
 
-let IPIPaddr = "192.168.1.158";
-
+const dataContainer = document.getElementById('dataContainer');
+const IPaddr = dataContainer.getAttribute('ip_var');
+const PORTvar = dataContainer.getAttribute('port_var');
 console.log("mini tree online");
 async function sendData(cmd) {
+
     const data = { cmd: cmd };
 
-    const response = await fetch('http://192.168.1.173:8080/ctrl', {
+    const response = await fetch('hhttp://' + IPaddr + ':' + PORTvar + '/ctrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +23,7 @@ async function getDropdownValue() {
     const selectedValue = dropdown.value;
     const data = { cmd: selectedValue };
 
-    const response = await fetch('http://192.168.1.173:8080/ctrl', {
+    const response = await fetch('http://' + IPaddr + ':' + PORTvar + '/ctrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
