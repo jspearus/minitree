@@ -7,7 +7,7 @@ async function sendData(cmd) {
 
     const data = { cmd: cmd };
 
-    const response = await fetch('hhttp://' + IPaddr + ':' + PORTvar + '/ctrl', {
+    const response = await fetch('http://' + IPaddr + ':' + PORTvar + '/ctrl', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
