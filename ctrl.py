@@ -11,7 +11,7 @@ if not bus:
     bus.open(1)
 
 def getThemeList():
-    folder_path = 'themes/'
+    folder_path = '/home/jeff/minitree/themes/'
     files = os.listdir(folder_path)
     themes = []
     for file in files:
