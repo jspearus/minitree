@@ -3,10 +3,6 @@
 
 const freq = document.getElementById('freq');
 
-const dataContainer = document.getElementById('dataContainer');
-const IPaddr = dataContainer.getAttribute('ip_var');
-const PORTvar = dataContainer.getAttribute('port_var');
-
 const startDate = document.getElementById('start-block');
 const stopDate = document.getElementById('stop-block');
 const week = document.getElementById('week-block');
