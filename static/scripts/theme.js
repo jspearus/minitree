@@ -8,10 +8,6 @@ const colorLabel1 = document.getElementById('label1')
 const colorLabel2 = document.getElementById('label2')
 const colorLabel3 = document.getElementById('label3')
 
-const dataContainer = document.getElementById('dataContainer');
-const IPaddr = dataContainer.getAttribute('ip_var');
-const PORTvar = dataContainer.getAttribute('port_var');
-
 const numLED = document.getElementById('numLEDS')
 
 
