@@ -1,4 +1,7 @@
 
+
+
+
 // Theme creator code
 const colorInput1 = document.getElementById('color1');
 const colorInput2 = document.getElementById('color2');
@@ -7,6 +10,7 @@ const colorInput3 = document.getElementById('color3');
 const colorLabel1 = document.getElementById('label1')
 const colorLabel2 = document.getElementById('label2')
 const colorLabel3 = document.getElementById('label3')
+
 
 const numLED = document.getElementById('numLEDS')
 

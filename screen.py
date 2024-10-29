@@ -58,7 +58,7 @@ def refreshScreen():
     # draw.text((x, top+12),     str(CPU), font=font, fill=255)
     # draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
     draw.text((x, top+29),"IP: " + str(IP),  font=font, fill=255)
-    draw.text((x, top+39),    "PORT: 8080",  font=font, fill=255)
+    draw.text((x, top+39),    "PORT: 7233",  font=font, fill=255)
     # Display image.
     oled.image(image)
     oled.display()

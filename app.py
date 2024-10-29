@@ -13,9 +13,8 @@ import subprocess
 from screen import refreshScreen
 from ctrl import displayTheme, off
 from theme_handler import  create_theme, get_all_themes
-from events_handler import create_event, get_next_event, get_all_events
+from events_handler import create_event, get_next_event, get_all_events, runUpdateDatetime
 from config import get_config, edit_config
-from scheduler import runUpdateDatetime
 
 
 numb = 1
@@ -77,6 +76,8 @@ def index():
 
 @app.route('/themes', methods=['GET', 'POST'])
 def themes():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     themes = get_all_themes()
     if request.method == 'POST':
         data = request.get_json()
@@ -98,7 +99,8 @@ def themes():
             convert2rgb(file, 'color2')
             convert2rgb(file, 'color3')
             create_theme(file)
-    return render_template('themes.html', themes=themes)
+    return render_template('themes.html', themes=themes,
+                           IP=IP, PORT=PORT)
 
 @app.route('/config', methods=['GET', 'POST'])
 def config():
