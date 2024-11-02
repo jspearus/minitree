@@ -115,7 +115,8 @@ def events():
         create_event(file)   
     themes = get_all_themes()
     themes.append('off')
-    return render_template('event.html', themes=themes)
+    return render_template('event.html', themes=themes,
+                          IP=IP, PORT=PORT)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
