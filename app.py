@@ -13,7 +13,7 @@ import subprocess
 from screen import refreshScreen
 from ctrl import displayTheme, off
 from theme_handler import  create_theme, get_all_themes
-from events_handler import create_event, get_next_event, get_all_events, runUpdateDatetime
+from events_handler import create_event, get_next_event, get_all_events, get_event_list, runUpdateDatetime
 from config import get_config, edit_config
 
 
@@ -65,7 +65,7 @@ def convert2rgb(file, key):
 def index():
     global PORT
     themes = get_all_themes()
-    events = get_all_events()
+    events = get_event_list()
     nextEvent = get_next_event()
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
