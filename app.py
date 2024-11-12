@@ -109,13 +109,16 @@ def config():
 
 @app.route('/events', methods=['GET', 'POST'])
 def events():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     if request.method == 'POST':
         data = request.get_json()
         file = json.loads(data)
         create_event(file)   
     themes = get_all_themes()
     themes.append('off')
-    return render_template('event.html', themes=themes)
+    return render_template('event.html', themes=themes,
+                          IP=IP, PORT=PORT)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
