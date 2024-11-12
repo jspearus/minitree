@@ -3,7 +3,7 @@ import threading
 from datetime import datetime
 import os
 import json
-import schedule
+
 
 from ctrl import displayTheme, off
 from theme_handler import get_all_themes
