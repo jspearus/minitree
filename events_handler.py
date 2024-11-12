@@ -93,7 +93,7 @@ def update_datetime():  # runs in thread
                     curEvent = event["name"]
                     print(f"curent event: {curEvent}")
                     if event["freq"] == "once":
-                        delete_event(event) 
+                        delete_event(event["name"]) 
         time.sleep(1)
 
 def runUpdateDatetime():
