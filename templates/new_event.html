@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1>Events</h1>
+<div class="form-container">
+    <form id="eventForm">
+        <div class="form-group">
+            <label for="name">Event Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <select id="themeSelect" name="themeSelect">
+            {% for theme in themes %}
+            <option value="{{ theme}}">{{ theme}}</option>
+            {% endfor %}
+        </select>
+        <label for="freq">Select Frequency:</label>
+        <select id="freq" name="freq">
+            <option value="once">Once</option>
+            <option value="day">Daily</option>
+            <option value="week">Weekly</option>
+        </select>
+
+        <div id="start-block">
+            <br><br>
+            <label id="start-date-label" for="start_event_date">Choose an Event Start date:</label>
+            <input type="date" id="start_event_date" name="start_event_date"> <!-- Latest selectable date -->
+        </div>
+        <div id="stop-block" style="display: none">
+            <br><br>
+            <label id="stop-date-label" for="stop_event_date">Choose an Event Stop date:</label>
+            <input type="date" id="stop_event_date" name="stop_event_date"> <!-- Latest selectable date -->
+        </div>
+
+        <div id="week-block" style="display: none">
+            <br><br>
+            <label id="week-label" for="weekday">Choose a weekday:</label>
+            <select name="weekday" id="weekday">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+                <option value="all">All</option>
+            </select>
+        </div>
+
+        <div id="time-block">
+            <br><br>
+            <label for="event_time">Choose an Event time:</label>
+            <input type="time" id="event_time" name="event_time" value="14:30">
+            <br><br>
+            <div class="form-group">
+                <button type="button" onclick="submitForm()">Submit</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock body %}
+
+{% block script %}
+<script src="{{url_for('static', filename='scripts/event.js')}}"></script>
+{% endblock script %}

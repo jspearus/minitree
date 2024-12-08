@@ -24,11 +24,6 @@ document.getElementById('freq').addEventListener('change', function () {
         startDate.style.display = 'none';
         stopDate.style.display = 'none';
     }
-    else if (selectedValue == 'range') {
-        week.style.display = 'block';
-        startDate.style.display = 'block';
-        stopDate.style.display = 'block';
-    }
 });
 
 async function submitForm() {

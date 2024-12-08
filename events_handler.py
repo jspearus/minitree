@@ -13,7 +13,7 @@ connected = True
 autoMode = ''
 # Define a list of weekdays
 weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-next_event = {'name':'zzzzzzz', 'event-time':'23:59'}
+next_event = {'name':'zzzzzzz', 'event_time':'23:59'}
 curEvent = ''
 
 def create_event(file):
@@ -39,8 +39,8 @@ def get_next_event():
     for file in files:
         with open('/home/jeff/minitree/events/'+file, 'r') as outputfile:
             event =json.load(outputfile)
-            eventTime = datetime.strptime(event['event-time'], time_format).time()
-            nextTime = datetime.strptime(next_event['event-time'], time_format).time()
+            eventTime = datetime.strptime(event['event_time'], time_format).time()
+            nextTime = datetime.strptime(next_event['event_time'], time_format).time()
             if event['name'] != curEvent:
                 if eventTime < nextTime and eventTime > current_time:
                     print(f'UPDATED: {current_time}')
@@ -88,7 +88,7 @@ def update_datetime():  # runs in thread
         autoMode = config['auto_mode']
         if autoMode ==  "on":
             for event in events[:]:  # Iterate over a copy of the list
-                if event["event-time"] == cur_day and event["name"] != curEvent:  # Check if the current time matches the event time
+                if event["event_time"] == cur_day and event["name"] != curEvent:  # Check if the current time matches the event time
                     displayTheme(event['themeSelect'])
                     curEvent = event["name"]
                     print(f"curent event: {curEvent}")

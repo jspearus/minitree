@@ -1,14 +1,17 @@
 #!/usr/bin/env python
+import datetime
+from multiprocessing import Process
+import sys
 import os
 import time
-from smbus2 import SMBus
+import platform
+import serial
+from serial.serialutil import Timeout
 from theme_handler import get_theme
-
-addr = 0x8 # bus address
-bus = SMBus(1) # indicates /dev/ic2-1
-time.sleep(1)
-if not bus:
-    bus.open(1)
+# for pi zero
+# port = serial.Serial("/dev/serial0", baudrate=115200, timeout=3.0)
+# for pi 4
+port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
 
 def getThemeList():
     folder_path = '/home/jeff/minitree/themes/'
@@ -33,15 +36,14 @@ def displayTheme(file):
         off()
         
 def SolidColor(file):
-    
     pattern = get_theme(file)["pattern"]
     if pattern == 'solid':
         color = get_theme(file)["color1"]
         for i in range(140):
-            data = f",1,{i},{color}"
-            send_data(data)
-        data = "show1"
-        send_data(data)
+            port.write(str.encode(f"1,{i},{color}#"))
+            port.write(str.encode("show1#"))
+            time.sleep(.01)
+        
     
     
 def TwoColorAlter(file):
@@ -52,13 +54,14 @@ def TwoColorAlter(file):
         step = int(get_theme(file)["numPerGroup"])
         for i in range(0, 140, step ):
             for j in range(i, i+step):
-                data = f",1,{i+j},{color1}"
-                send_data(data)
+                port.write(str.encode(f"1,{i+j},{color1}#"))
+                port.write(str.encode("show1#"))
+                time.sleep(.01)        
             for j in range(i+step, i+step+step):
-                data = f",1,{i+j},{color2}"
-                send_data(data)
-        data = "show1"
-        send_data(data)
+                port.write(str.encode(f"1,{i+j},{color2}#"))
+                port.write(str.encode("show1#"))
+                time.sleep(.01)
+        
         
 def ThreeColorAlter(file):
     pattern = get_theme(file)["pattern"]
@@ -69,38 +72,30 @@ def ThreeColorAlter(file):
         step = int(get_theme(file)["numPerGroup"])
         for i in range(0, 140, step*3):
             for j in range(i, i+step):
-                data = f",1,{j},{color1}"
-                send_data(data)
+                port.write(str.encode(f"1,{j},{color1}#"))
+                port.write(str.encode("show1#"))
+                time.sleep(.01)       
             for k in range(i+step, i+step+step):
-                data = f",1,{k},{color2}"
-                send_data(data)
+                port.write(str.encode(f"1,{k},{color2}#"))
+                port.write(str.encode("show1#"))
+                time.sleep(.01)
             for l in range(i+step+step, i+step+step+step):
-                data = f",1,{l},{color3}"
-                send_data(data)
-            
-        data = "show1"
-        send_data(data)
+                port.write(str.encode(f"1,{l},{color3}#"))
+                port.write(str.encode("show1#"))
+                time.sleep(.01)
+
+        
         
 def off():
-    data = "clear1"
-    send_data(data)
-    data = "show1"
-    send_data(data)
+    port.write(str.encode("clear1#"))  
+    port.write(str.encode("show1#"))
+    
         
 def custom(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'custom':
         ...
-        
-def send_data(data):
-    msg = list(data.encode('ascii'))
-    try:
-        bus.write_i2c_block_data(addr, 10, msg)
-    except Exception as error:
-        # handle the exception
-        print("An exception occurred:", type(error).__name__) 
-        print("message:", error) 
-    # bus.close()
+
 if __name__ == '__main__':
     # TwoColorAlter('tmp')
     # SolidColor('solidtmp')

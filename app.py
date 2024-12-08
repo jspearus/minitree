@@ -107,6 +107,34 @@ def config():
     config = get_config()
     return render_template('config.html', config=config)
 
+@app.route('/newevent', methods=['GET', 'POST'])
+def new_event():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    if request.method == 'POST':
+        data = request.get_json()
+        file = json.loads(data)
+        create_event(file)
+        return render_template('event.html', themes=themes,
+                          events=events, IP=IP, PORT=PORT)
+    themes = get_all_themes()
+    themes.append('off')
+    return render_template('new_event.html', themes=themes,
+                           IP=IP, PORT=PORT)
+    
+@app.route('/editevent/<string:event_name>', methods=['GET', 'POST'])
+def edit_event(event_name):
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    if request.method == 'POST':
+        data = request.get_json()
+        file = json.loads(data)
+        create_event(file)
+    themes = get_all_themes()
+    themes.append('off')
+    return render_template('edit_event.html', event_name=event_name, themes=themes,
+                           IP=IP, PORT=PORT)
+
 @app.route('/events', methods=['GET', 'POST'])
 def events():
     cmd = "hostname -I | cut -d\' \' -f1"
@@ -114,11 +142,12 @@ def events():
     if request.method == 'POST':
         data = request.get_json()
         file = json.loads(data)
-        create_event(file)   
+        create_event(file)
+    events = get_all_events()
     themes = get_all_themes()
     themes.append('off')
     return render_template('event.html', themes=themes,
-                          IP=IP, PORT=PORT)
+                          events=events, IP=IP, PORT=PORT)
 
 @app.route('/ctrl', methods=['POST'])
 def ctrl():
@@ -128,7 +157,6 @@ def ctrl():
         off()
         print('off')
     elif data['cmd'] in themes:
-        displayTheme(data['cmd'])
         displayTheme(data['cmd'])
     return jsonify({'status': 'success'})
 
