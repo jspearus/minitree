@@ -5,7 +5,7 @@ import os
 
 def get_config():
     if os.path.exists("/home/mini/minitree/themes"):
-        with open('/home/jeff/minitree/config.json', 'r') as outputfile:
+        with open('/home/mini/minitree/config.json', 'r') as outputfile:
                 return json.load(outputfile)
     elif os.path.exists("/home/jeff/minitree/themes"):
         with open('/home/jeff/minitree/config.json', 'r') as outputfile:
