@@ -10,12 +10,12 @@ from serial.serialutil import Timeout
 from theme_handler import get_theme
 from config import get_config
 # for pi zero
-# port = serial.Serial("/dev/serial0", baudrate=115200, timeout=3.0)
+port = serial.Serial("/dev/serial0", baudrate=115200, timeout=3.0)
 # for pi 4
-port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
+# port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
 
 def getThemeList():
-    folder_path = '/home/jeff/minitree/themes/'
+    folder_path = '/home/mini/minitree/themes/'
     files = os.listdir(folder_path)
     themes = []
     for file in files:
