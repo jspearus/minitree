@@ -4,23 +4,30 @@ from config import get_config
 
 
 def create_theme(file):
+    config = get_config()
+    file_path = config['FILE_PATH']
     # Serializing json
     data = json.dumps(file, indent=4)
-    if os.path.exists("/home/mini/minitree/themes"):
+    if os.path.exists(f"{file_path}themes"):
         ...
     else:
-        os.mkdir("/home/mini/minitree/themes")
+        os.mkdir(f"{file_path}themes")
     
-    with open(f"/home/mini/minitree/themes/{file['name']}.json", 'w', encoding='utf-8') as f:
+    with open(f"{file_path}themes/{file['name']}.json", 'w', encoding='utf-8') as f:
         f.write(data)
 
 def get_theme(name):
-    file = f"/home/mini/minitree/themes/{name}.json"
+    config = get_config()
+    file_path = config['FILE_PATH']
+    file = f"{file_path}themes/{name}.json"
     if file:
         with open(file, 'r') as outputfile:
             return json.load(outputfile)
+        
 def get_all_themes():
-    folder_path = '/home/mini/minitree/themes/'
+    config = get_config()
+    file_path = config['FILE_PATH']
+    folder_path = f'{file_path}themes/'
     files = os.listdir(folder_path)
     themes = []
     for file in files:
@@ -28,7 +35,9 @@ def get_all_themes():
     return themes
         
 def delete_theme(name):
-    file = f"/home/mini/minitree/themes/{name}.json"
+    config = get_config()
+    file_path = config['FILE_PATH']
+    file = f"{file_path}themes/{name}.json"
     if file:
         os.remove(file)
             

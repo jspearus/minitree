@@ -15,7 +15,9 @@ port = serial.Serial("/dev/serial0", baudrate=115200, timeout=3.0)
 # port = serial.Serial("/dev/ttyS0", baudrate=115200, timeout=3.0)
 
 def getThemeList():
-    folder_path = '/home/mini/minitree/themes/'
+    config = get_config()
+    file_path = config['FILE_PATH']
+    folder_path = f'{file_path}themes/'
     files = os.listdir(folder_path)
     themes = []
     for file in files:
