@@ -8,6 +8,7 @@ import platform
 import serial
 from serial.serialutil import Timeout
 from theme_handler import get_theme
+from config import get_config
 # for pi zero
 # port = serial.Serial("/dev/serial0", baudrate=115200, timeout=3.0)
 # for pi 4

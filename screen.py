@@ -6,6 +6,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 
 import subprocess
+from config import get_config
 
 numb = 1
 RST = None
@@ -42,6 +43,8 @@ font = ImageFont.load_default()
 
 
 def refreshScreen():
+    config = get_config()
+    device_name = config['device_name']
     # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
@@ -54,7 +57,7 @@ def refreshScreen():
 
     # Write two lines of text.
 
-    draw.text((x, top),       "     LVM TREE",  font=font, fill=255)
+    draw.text((x, top),       f"     {device_name}",  font=font, fill=255)
     # draw.text((x, top+12),     str(CPU), font=font, fill=255)
     # draw.text((x, top+20),    str(MemUsage),  font=font, fill=255)
     draw.text((x, top+29),"IP: " + str(IP),  font=font, fill=255)

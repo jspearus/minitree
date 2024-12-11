@@ -1,6 +1,6 @@
 import json
 import os
-
+from config import get_config
 
 
 def create_theme(file):

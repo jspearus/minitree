@@ -18,26 +18,30 @@ curEvent = ''
 
 def create_event(file):
     # Serializing json
+    config = get_config()
+    file_path = config['FILE_PATH']
     data = json.dumps(file, indent=4)
-    if os.path.exists("/home/jeff/minitree/events"):
+    if os.path.exists(f"{file_path}events"):
         ...
     else:
-        os.mkdir("/home/jeff/minitree/events")
+        os.mkdir(f"{file_path}events")
     
-    with open(f"/home/jeff/minitree/events/{file['name']}.json", 'w', encoding='utf-8') as f:
+    with open(f"{file_path}events/{file['name']}.json", 'w', encoding='utf-8') as f:
         f.write(data)
     
 def get_next_event():
     global next_event, curEvent
+    config = get_config()
+    file_path = config['FILE_PATH']
 
     time_format = "%H:%M"
-    files = os.listdir('/home/jeff/minitree/events/')
+    files = os.listdir(f'{file_path}events/')
     current_datetime = datetime.now()
     current_time = current_datetime.strftime("%H:%M")
     current_time = datetime.strptime(current_time, time_format).time()
     # print(f'time: {current_time}')
     for file in files:
-        with open('/home/jeff/minitree/events/'+file, 'r') as outputfile:
+        with open(f'{file_path}events/'+file, 'r') as outputfile:
             event =json.load(outputfile)
             eventTime = datetime.strptime(event['event_time'], time_format).time()
             nextTime = datetime.strptime(next_event['event_time'], time_format).time()
@@ -49,18 +53,22 @@ def get_next_event():
     return next_event
     
 def get_all_events():
-    folder_path = '/home/jeff/minitree/events/'
+    config = get_config()
+    file_path = config['FILE_PATH']
+    folder_path = f'{file_path}events/'
     files = os.listdir(folder_path)
     events = []
     for file in files:
-        with open('/home/jeff/minitree/events/'+file, 'r') as outputfile:
+        with open(f'{file_path}events/'+file, 'r') as outputfile:
             event =json.load(outputfile)
             events.append(event)
     return events
 
 def get_event_list():
     global next_event, curEvent
-    folder_path = '/home/jeff/minitree/events/'
+    config = get_config()
+    file_path = config['FILE_PATH']
+    folder_path = f'{file_path}events/'
     files = os.listdir(folder_path)
     events = []
     for file in files:
@@ -68,12 +76,16 @@ def get_event_list():
     return events
     
 def edit_event(file):
+    config = get_config()
+    file_path = config['FILE_PATH']
     data = json.dumps(file, indent=4)
-    with open(f"/home/jeff/minitree/events/{file['name']}.json", 'w', encoding='utf-8') as f:
+    with open(f"{file_path}events/{file['name']}.json", 'w', encoding='utf-8') as f:
         f.write(data)
     
 def delete_event(name):
-    file = f"/home/jeff/minitree/events/{name}.json"
+    config = get_config()
+    file_path = config['FILE_PATH']
+    file = f"{file_path}events/{name}.json"
     if file:
         os.remove(file)
         
