@@ -3,25 +3,28 @@
 
 {% block body %}
 <h1>
-    <Main>MINI TREE</Main>
+    <Main>{{device}}</Main>
 </h1>
-
-<h1>Themes</h1>
-<label for="themeSelect">Select Theme:</label>
-<select id="themeSelect" name="themeSelect">
-    {% for theme in themes %}
-    <option value="{{ theme}}">{{ theme}}</option>
-    {% endfor %}
-</select>
-<button type="buttun" onclick="getDropdownValue()">Select</button>
-<br>
-<button type="buttun" onclick="sendData('clear')">Off</button>
-<div>
-    <h1>Event List</h1>
-    <h2>{{events}}</h2>
+<div class="center">
+    <h1>Themes</h1>
+    <label for="themeSelect">Select Theme:</label>
+    <select id="themeSelect" name="themeSelect">
+        {% for theme in themes %}
+        <option value="{{ theme}}">{{ theme}}</option>
+        {% endfor %}
+    </select>
+    <button type="buttun" onclick="getDropdownValue()">Select</button>
+    <br>
+    <button type="buttun" onclick="sendData('clear')">Off</button>
 </div>
-<div>
+<div class="center">
+    <h1>Event List</h1>
+    {% for event in events %}
+    <h2>{{event}} @ {{event.event_time}}</h2>
+    {% endfor %}
+</div>
+<!-- <div class="center">
     <h1>Next Event</h1>
     <h2>{{nextEvent['name']}}</h2>
-</div>
+</div> -->
 {% endblock body %}

@@ -64,15 +64,17 @@ def convert2rgb(file, key):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global PORT
+    config = get_config()
+    device_name = config['device_name']
     themes = get_all_themes()
     events = get_event_list()
     nextEvent = get_next_event()
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
-    
+    refreshScreen()
     return render_template('index.html', themes=themes,  
                            events=events, nextEvent=nextEvent, 
-                           IP=IP, PORT=PORT)
+                           IP=IP, PORT=PORT, device=device_name)
 
 @app.route('/themes', methods=['GET', 'POST'])
 def themes():
@@ -104,8 +106,15 @@ def themes():
 
 @app.route('/config', methods=['GET', 'POST'])
 def config():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     config = get_config()
-    return render_template('config.html', config=config)
+    if request.method == 'POST':
+        data = request.get_json()
+        file = json.loads(data)
+        edit_config(file)
+        refreshScreen()
+    return render_template('config.html', config=config, IP=IP, PORT=PORT)
 
 @app.route('/newevent', methods=['GET', 'POST'])
 def new_event():
