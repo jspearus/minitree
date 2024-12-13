@@ -3,38 +3,39 @@
 
 {% block body %}
 <h1>Settings</h1>
-<form id="configForm">
-    <div class="form-group">
-        <label for="name">Device Name:</label>
-        <input type="text" id="name" name="device_name" value="miniTree">
-    </div>
-    <div class="form-group">
-        <label for="ledtype">LED Type:</label>
-        <select id="ledtype" name="led_type">
-            <option value={{config.led_type}} selected>{{config.led_type}}</option>
-            <option value="rgb">rgb</option>
-            <option value="grb">grb</option>
-        </select>
-    </div>
-    <div class="form-group" id="auto">
-        <label for="auto">Auto Mode:</label>
-        <select id="auto" name="auto_mode">
-            <option value={{config.auto_mode}} selected>{{config.auto_mode}}</option>
-            <option value="on">on</option>
-            <option value="off">off</option>
-        </select>
-    </div>
-    <div class="form-group">
+<div class="center">
+    <form id="configForm">
+        <div class="form-group">
+            <label for="name">Device Name:</label>
+            <input type="text" id="name" name="device_name" value="miniTree">
+        </div>
+        <div class="form-group">
+            <label for="ledtype">LED Type:</label>
+            <select id="ledtype" name="led_type">
+                <option value={{config.led_type}} selected>{{config.led_type}}</option>
+                <option value="rgb">rgb</option>
+                <option value="grb">grb</option>
+            </select>
+        </div>
+        <div class="form-group" id="auto">
+            <label for="auto">Auto Mode:</label>
+            <select id="auto" name="auto_mode">
+                <option value={{config.auto_mode}} selected>{{config.auto_mode}}</option>
+                <option value="on">on</option>
+                <option value="off">off</option>
+            </select>
+        </div>
+        <div class="form-group">
 
-        <label id="FILE_PATH" for="FILE_PATH">File Path:</label>
-        <input type="text" id="FILE_PATH" name="FILE_PATH" value="/home/jeff/minitree/">
-    </div>
+            <label id="FILE_PATH" for="FILE_PATH">File Path:</label>
+            <input type="text" id="FILE_PATH" name="FILE_PATH" value="/home/jeff/minitree/">
+        </div>
 
-    <div class="form-group">
-        <button type="button" onclick="submitForm()">Update</button>
-    </div>
-
-</form>
+        <div class="form-group">
+            <button type="button" onclick="submitForm()">Update</button>
+        </div>
+    </form>
+</div>
 {% endblock body %}
 
 {% block script %}
