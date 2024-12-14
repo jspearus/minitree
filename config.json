@@ -1,6 +1,6 @@
 {
     "device_name": "miniTree",
-    "current_theme": "red",
+    "current_theme": "off",
     "display_status": "on",
     "auto_mode": "on",
     "led_type": "rgb",

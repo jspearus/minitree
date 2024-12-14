@@ -64,16 +64,13 @@ def get_all_events():
             events.append(event)
     return events
 
-def get_event_list():
+def get_event(name):
     global next_event, curEvent
     config = get_config()
     file_path = config['FILE_PATH']
-    folder_path = f'{file_path}events/'
-    files = os.listdir(folder_path)
-    events = []
-    for file in files:
-        events.append(file.split('.')[0])
-    return events
+    with open(f'{file_path}events/'+name+'.json', 'r') as outputfile:
+            event =json.load(outputfile)
+    return event
     
 def edit_event(file):
     config = get_config()
@@ -104,7 +101,7 @@ def update_datetime():  # runs in thread
                     displayTheme(event['themeSelect'])
                     curEvent = event["name"]
                     print(f"curent event: {curEvent}")
-                    if event["freq"] == "once":
+                    if event["freq"] == "Once":
                         delete_event(event["name"]) 
         time.sleep(1)
 

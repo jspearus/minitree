@@ -13,7 +13,7 @@ import subprocess
 from screen import refreshScreen
 from ctrl import displayTheme, off
 from theme_handler import  create_theme, get_all_themes
-from events_handler import create_event, get_next_event, get_all_events, get_event_list, runUpdateDatetime
+from events_handler import create_event, get_next_event, get_all_events, get_event, runUpdateDatetime, delete_event
 from config import get_config, edit_config
 
 
@@ -67,7 +67,7 @@ def index():
     config = get_config()
     device_name = config['device_name']
     themes = get_all_themes()
-    events = get_event_list()
+    events = get_all_events()
     nextEvent = get_next_event()
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
@@ -135,13 +135,21 @@ def new_event():
 def edit_event(event_name):
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
-    if request.method == 'POST':
-        data = request.get_json()
-        file = json.loads(data)
-        create_event(file)
+    event = get_event(event_name)
     themes = get_all_themes()
     themes.append('off')
-    return render_template('edit_event.html', event_name=event_name, themes=themes,
+    return render_template('edit_event.html', event=event, themes=themes,
+                           IP=IP, PORT=PORT)
+
+@app.route('/delevent/<string:event_name>', methods=['GET', 'POST'])
+def del_event(event_name):
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    delete_event(event_name)
+    themes = get_all_themes()
+    events = get_all_events()
+    themes.append('off')
+    return render_template('event.html', events=events, themes=themes,
                            IP=IP, PORT=PORT)
 
 @app.route('/events', methods=['GET', 'POST'])

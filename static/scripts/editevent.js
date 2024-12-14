@@ -1,7 +1,14 @@
 
+window.onload = function () {
+    const freq = document.getElementById('freq');
+    const startDate = document.getElementById('start-block');
+    console.log(freq.value)
+    if (freq.value == 'Daily') {
+        startDate.style.display = 'none';
+    }
+}
 
 const freq = document.getElementById('freq');
-
 const startDate = document.getElementById('start-block');
 // const stopDate = document.getElementById('stop-block');
 // const week = document.getElementById('week-block');
