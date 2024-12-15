@@ -28,6 +28,7 @@ def displayTheme(file):
     themes = getThemeList()
     print(f'theme: {file}')
     if file in themes:
+        print(get_theme(file))
         pattern = get_theme(file)["pattern"]
         if pattern == 'solid':
             SolidColor(file)
@@ -42,8 +43,11 @@ def SolidColor(file):
     pattern = get_theme(file)["pattern"]
     if pattern == 'solid':
         color = get_theme(file)["color1"]
-        for i in range(140):
+        print(f"1,1,{color}#")
+        for i in range(100):
+            print(f"1,{i},{color}#")
             port.write(str.encode(f"1,{i},{color}#"))
+            time.sleep(.01)
             port.write(str.encode("show1#"))
             time.sleep(.01)
         

@@ -3,6 +3,6 @@
     "current_theme": "off",
     "display_status": "on",
     "auto_mode": "on",
-    "led_type": "rgb",
+    "led_type": "grb",
     "FILE_PATH": "/home/jeff/minitree/"
 }

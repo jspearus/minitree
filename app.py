@@ -12,7 +12,7 @@ import json
 import subprocess
 from screen import refreshScreen
 from ctrl import displayTheme, off
-from theme_handler import  create_theme, get_all_themes
+from theme_handler import  create_theme, get_all_themes, get_theme, delete_theme, convert2hex
 from events_handler import create_event, get_next_event, get_all_events, get_event, runUpdateDatetime, delete_event
 from config import get_config, edit_config
 
@@ -75,15 +75,62 @@ def index():
     return render_template('index.html', themes=themes,  
                            events=events, nextEvent=nextEvent, 
                            IP=IP, PORT=PORT, device=device_name)
+    
+@app.route('/config', methods=['GET', 'POST'])
+def config():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    config = get_config()
+    if request.method == 'POST':
+        data = request.get_json()
+        file = json.loads(data)
+        edit_config(file)
+        refreshScreen()
+    return render_template('config.html', config=config, IP=IP, PORT=PORT)
 
+@app.route('/ctrl', methods=['POST'])
+def ctrl():
+    themes = get_all_themes()
+    data = request.get_json()
+    if data['cmd'] == 'clear':
+        off()
+        print('off')
+    elif data['cmd'] in themes:
+        displayTheme(data['cmd'])
+    return jsonify({'status': 'success'})
+
+@app.route('/system', methods=['GET', 'POST'])
+def system():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    
+    return render_template('system.html', IP=IP, PORT=PORT)
+
+@app.route('/syscom/<string:command>', methods=['GET', 'POST'])
+def syscom(command):
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    # todo create reboot and shutdown functions
+    print(command)
+    return render_template('system.html', IP=IP, PORT=PORT)
+
+# ####################### Themes #####################
 @app.route('/themes', methods=['GET', 'POST'])
 def themes():
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     themes = get_all_themes()
+    themes.append('off')
+    return render_template('themes.html', themes=themes,
+                           IP=IP, PORT=PORT)
+
+@app.route('/newtheme', methods=['GET', 'POST'])
+def newtheme():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    themes = get_all_themes()
     if request.method == 'POST':
         data = request.get_json()
-        # todo convert color value from hex to RGB
         file = json.loads(data)
         if file['pattern'] == 'solid':
             convert2rgb(file, 'color1')
@@ -101,20 +148,43 @@ def themes():
             convert2rgb(file, 'color2')
             convert2rgb(file, 'color3')
             create_theme(file)
-    return render_template('themes.html', themes=themes,
+    return render_template('new_theme.html', themes=themes,
                            IP=IP, PORT=PORT)
-
-@app.route('/config', methods=['GET', 'POST'])
-def config():
+    
+@app.route('/edittheme/<string:theme_name>', methods=['GET', 'POST'])
+def edit_theme(theme_name):
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
-    config = get_config()
+    theme = get_theme(theme_name)
+    # todo convert rgb values to hex before displaying them
+    return render_template('edit_theme.html', theme=theme,
+                           IP=IP, PORT=PORT)
+    
+@app.route('/deltheme/<string:theme_name>', methods=['GET', 'POST'])
+def del_theme(theme_name):
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    delete_theme(theme_name)
+    themes = get_all_themes()
+    themes.append('off')
+    return render_template('themes.html', themes=themes,
+                           IP=IP, PORT=PORT)
+    
+# ###################  Events ############################
+
+@app.route('/events', methods=['GET', 'POST'])
+def events():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     if request.method == 'POST':
         data = request.get_json()
         file = json.loads(data)
-        edit_config(file)
-        refreshScreen()
-    return render_template('config.html', config=config, IP=IP, PORT=PORT)
+        create_event(file)
+    events = get_all_events()
+    themes = get_all_themes()
+    themes.append('off')
+    return render_template('event.html', themes=themes,
+                          events=events, IP=IP, PORT=PORT)
 
 @app.route('/newevent', methods=['GET', 'POST'])
 def new_event():
@@ -152,30 +222,6 @@ def del_event(event_name):
     return render_template('event.html', events=events, themes=themes,
                            IP=IP, PORT=PORT)
 
-@app.route('/events', methods=['GET', 'POST'])
-def events():
-    cmd = "hostname -I | cut -d\' \' -f1"
-    IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
-    if request.method == 'POST':
-        data = request.get_json()
-        file = json.loads(data)
-        create_event(file)
-    events = get_all_events()
-    themes = get_all_themes()
-    themes.append('off')
-    return render_template('event.html', themes=themes,
-                          events=events, IP=IP, PORT=PORT)
-
-@app.route('/ctrl', methods=['POST'])
-def ctrl():
-    themes = get_all_themes()
-    data = request.get_json()
-    if data['cmd'] == 'clear':
-        off()
-        print('off')
-    elif data['cmd'] in themes:
-        displayTheme(data['cmd'])
-    return jsonify({'status': 'success'})
 
 
 if __name__ == '__main__':

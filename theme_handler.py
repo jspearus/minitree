@@ -2,7 +2,35 @@ import json
 import os
 from config import get_config
 
+ledType = ''
 
+def update_config():
+    global autoMode, ledType
+    config = get_config()
+    ledType = config['led_type']
+    print(f"auto Mode: {autoMode}")
+    
+def convert2hex(file, key):
+    global ledType
+    update_config()
+    color = file[key]
+    color = color[1:] if len(color) > 1 else ""
+    print(f'decvalue: {color}')
+    colors = []
+    hex_colors = []
+    for i in range(0, len(color), 2):
+        colors.append(color[i:i+2])
+    for color in colors:
+        hexcolor = hex(color)
+        hex_colors.append(hexcolor)
+    print(f'type: {ledType}')
+    if ledType == 'rgb':
+        color = f"#{hex_colors[0]}{hex_colors[1]}{hex_colors[2]}"
+    elif ledType == 'grb':
+        color = f"#{hex_colors[1]}{hex_colors[0]}{hex_colors[2]}"
+    print(f'hexvalue: {color}')
+    file[key] = color
+    
 def create_theme(file):
     config = get_config()
     file_path = config['FILE_PATH']

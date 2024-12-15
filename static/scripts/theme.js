@@ -64,7 +64,7 @@ async function submitForm() {
     const jsonData = JSON.stringify(formDataObj);
     console.log(jsonData)
     console.log(IPaddr)
-    const response = await fetch('http://' + IPaddr + ':' + PORTvar + '/themes', {
+    const response = await fetch('http://' + IPaddr + ':' + PORTvar + '/newtheme', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
