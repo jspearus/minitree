@@ -47,7 +47,6 @@ def SolidColor(file):
         for i in range(100):
             print(f"1,{i},{color}#")
             port.write(str.encode(f"1,{i},{color}#"))
-            time.sleep(.01)
             port.write(str.encode("show1#"))
             time.sleep(.01)
         
