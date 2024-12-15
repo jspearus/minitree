@@ -44,7 +44,7 @@ def SolidColor(file):
     if pattern == 'solid':
         color = get_theme(file)["color1"]
         print(f"1,1,{color}#")
-        for i in range(100):
+        for i in range(140):
             print(f"1,{i},{color}#")
             port.write(str.encode(f"1,{i},{color}#"))
             port.write(str.encode("show1#"))
