@@ -1,6 +1,6 @@
 import time
 import threading
-from datetime import datetime
+from datetime import datetime, date
 import os
 import json
 
@@ -91,18 +91,22 @@ def update_datetime():  # runs in thread
     time_format = "%H:%M"
     while connected:
         events = get_all_events()
-        cur_day = datetime.now().strftime(time_format)
+        current_date = date.today().strftime("%Y-%m-%d")
+        cur_time = datetime.now().strftime(time_format)
         global autoMode
         config = get_config()
         autoMode = config['auto_mode']
         if autoMode ==  "on":
             for event in events[:]:  # Iterate over a copy of the list
-                if event["event_time"] == cur_day and event["name"] != curEvent:  # Check if the current time matches the event time
-                    displayTheme(event['themeSelect'])
-                    curEvent = event["name"]
-                    print(f"curent event: {curEvent}")
-                    if event["freq"] == "Once":
-                        delete_event(event["name"]) 
+                if event["event_time"] == cur_time and event["name"] != curEvent:  # Check if the current time matches the event time
+                    if event["freq"] == "Once" and event["start_event_date"] == current_date:
+                        print(f"curent event: tried")
+                        displayTheme(event['themeSelect'])
+                        delete_event(event["name"])
+                    elif event["freq"] == "Daily":
+                        displayTheme(event['themeSelect'])
+                        curEvent = event["name"]
+                        print(f"curent event: {curEvent}")
         time.sleep(1)
 
 def runUpdateDatetime():
