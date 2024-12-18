@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Importing flask module in the project is mandatory
 # An object of Flask class is our WSGI application.
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from waitress import serve
 import threading
 import os, time
@@ -12,7 +12,7 @@ import json
 import subprocess
 from screen import refreshScreen
 from ctrl import displayTheme, off
-from theme_handler import  create_theme, get_all_themes, get_theme, delete_theme, convert2hex
+from theme_handler import  create_theme, get_all_themes, get_theme, delete_theme, edit_theme
 from events_handler import create_event, get_next_event, get_all_events, get_event, runUpdateDatetime, delete_event
 from config import get_config, edit_config
 
@@ -38,29 +38,6 @@ def update_config():
     ledType = config['led_type']
     print(f"auto Mode: {autoMode}")
 
-
-def convert2rgb(file, key):
-    global ledType
-    update_config()
-    color = file[key]
-    color = color[1:] if len(color) > 1 else ""
-    colors = []
-    dec_colors = []
-    for i in range(0, len(color), 2):
-        colors.append(color[i:i+2])
-    for color in colors:
-        color = int(color, 16)
-        dec_colors.append(color)
-    print(f'type: {ledType}')
-    if ledType == 'rgb':
-        color = f"{dec_colors[0]},{dec_colors[1]},{dec_colors[2]}"
-    elif ledType == 'grb':
-        color = f"{dec_colors[1]},{dec_colors[0]},{dec_colors[2]}"
-    file[key] = color
-    
-# The route() function of the Flask class is a decorator, 
-# which tells the application which URL should call 
-# the associated function.
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global PORT
@@ -133,30 +110,90 @@ def newtheme():
         data = request.get_json()
         file = json.loads(data)
         if file['pattern'] == 'solid':
-            convert2rgb(file, 'color1')
+            # convert2rgb(file, 'color1')
             del file['numPerGroup']
             del file['color2']
             del file['color3']
             create_theme(file)
         elif file['pattern'] == '2Color':
-            convert2rgb(file, 'color1')
-            convert2rgb(file, 'color2')
+            # convert2rgb(file, 'color1')
+            # convert2rgb(file, 'color2')
             del file['color3']
             create_theme(file)
         elif file['pattern'] == '3Color':
-            convert2rgb(file, 'color1')
-            convert2rgb(file, 'color2')
-            convert2rgb(file, 'color3')
+            # convert2rgb(file, 'color1')
+            # convert2rgb(file, 'color2')
+            # convert2rgb(file, 'color3')
             create_theme(file)
+        print("lodaed")
+        return redirect(url_for('themes'))
     return render_template('new_theme.html', themes=themes,
-                           IP=IP, PORT=PORT)
+                            IP=IP, PORT=PORT)
     
 @app.route('/edittheme/<string:theme_name>', methods=['GET', 'POST'])
-def edit_theme(theme_name):
+def edittheme(theme_name):
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
+    print(f"request type: {request.method}")
     theme = get_theme(theme_name)
+    
+    # todo not getting past here when i try to update the theme
+    if request.method == 'POST':
+        print('HERE')
+        pattern = request.form.get('pattern')
+        numPerGroup = request.form.get('numPerGroup')
+        color1 = request.form.get('color1')
+        color2 = request.form.get('color2')
+        color3 = request.form.get('color3')
+        print(f'patern: {pattern}')
+        print(f'color1: {color1}')
+        if pattern == 'solid':
+            # convert2rgb(color1, 'dec')
+            data={
+                "name": theme_name, 
+                "pattern": pattern,
+                "color1": color1
+            }
+            edit_theme(data)
+            print('updated')
+        elif pattern == '2Color':
+            # convert2rgb(color1, 'dec')
+            # convert2rgb(color2, 'dec')
+            data={
+                "name": theme_name, 
+                "pattern": pattern,
+                "numPerGroup": numPerGroup,
+                "color1": color1,
+                "color2": color2
+            }
+            edit_theme(data)
+            print('updated2')
+        return redirect(url_for('themes'))
+        # elif pattern == '3Color':
+        #     convert2rgb(file, 'color1')
+        #     convert2rgb(file, 'color2')
+        #     convert2rgb(file, 'color3')
+        #     edit_theme(file)
+        
+        
+    else:
+        if theme['pattern'] == 'solid':
+            # convert2hex(theme, 'color1')
+            theme['numPerGroup'] = '1'
+            theme['color2'] = '#000000'
+            theme['color3'] = '#000000'
+        elif theme['pattern'] == '2Color':
+            # convert2hex(theme, 'color1')
+            # convert2hex(theme, 'color2')
+            theme['color3'] = '#000000'
+        elif theme['pattern'] == '3Color':
+            ...
+            # convert2hex(theme, 'color1')
+            # convert2hex(theme, 'color2')
+            # convert2hex(theme, 'color3')
+    
     # todo convert rgb values to hex before displaying them
+    
     return render_template('edit_theme.html', theme=theme,
                            IP=IP, PORT=PORT)
     

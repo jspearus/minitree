@@ -5,10 +5,12 @@
 <h1>Themes</h1>
 <div class="form-container">
     <div>
-        <h1>Event List</h1>
+        <h1>Theme List</h1>
         {%for theme in themes %}
         <h2>{{theme}}</h2>
+        {%if theme != 'off'%}
         <a href="/edittheme/{{theme}}">Edit</a>
+        {%endif%}
         {%endfor%}
     </div>
 </div>

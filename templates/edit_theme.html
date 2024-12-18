@@ -2,7 +2,7 @@
 {% block body %}
 <h1>Theme Editor</h1>
 <div class="form-container">
-    <form id="themeForm">
+    <form method="POST" id="themeForm">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="{{theme.name}}">
@@ -10,7 +10,7 @@
         <div class=" form-group">
             <label for="pattern">Pattern:</label>
             <select id="pattern" name="pattern">
-                <option value=" solid" {% if theme.pattern=="solid" %}selected{% endif %}>Solid</option>
+                <option value="solid" {% if theme.pattern=="solid" %}selected{% endif %}>Solid</option>
                 <option value="2Color" {% if theme.pattern=="2Color" %}selected{% endif %}>2 Color</option>
                 <option value="3Color" {% if theme.pattern=="3Color" %}selected{% endif %}>3 Color</option>
             </select>
@@ -23,25 +23,25 @@
             <div class="selection">
 
                 <label id="label1" for="color1" style="display: block">Pick a color:</label>
-                <input type="color" id="color1" style="display: block" name="color1" value="#000050">
+                <input type="color" id="color1" style="display: block" name="color1" value="{{theme.color1}}">
             </div>
             <div class="selection">
 
                 <label id="label2" for="color2" {% if theme.pattern=="2Color" or theme.pattern=="3Color"
                     %}style="display: block" {% endif %}>Pick a color:</label>
                 <input type="color" id="color2" {% if theme.pattern=="2Color" or theme.pattern=="3Color"
-                    %}style="display: block" {% endif %} name="color2" value="#005000">
+                    %}style="display: block" {% endif %} name="color2" value="{{theme.color2}}">
             </div>
             <div class="selection">
                 <label id="label3" for="color3" {% if theme.pattern=="3Color" %}style="display: block" {% endif %}>Pick
                     a color:</label>
                 <input type="color" for="color3" {% if theme.pattern=="3Color" %}style="display: block" {% endif %}
-                    id="color3" name="color3" value="#500000">
+                    id="color3" name="color3" value="{{theme.color3}}">
             </div>
 
         </div>
         <div class="form-group">
-            <button type="button" onclick="submitForm()">Update</button>
+            <button type="submit">Update</button>
         </div>
         <br><br>
         <a href="/deltheme/{{theme.name}}">Delete</a>
