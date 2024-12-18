@@ -118,11 +118,6 @@ def off():
         port.write(str.encode("show1#"))
         time.sleep(.01)
     
-        
-def runTwoColorAlter(file):
-    datetime_updater = threading.Thread(target=TwoColorAlter, args=(file))
-    # datetime_updater.setDaemon(True)
-    datetime_updater.start()
 
 if __name__ == '__main__':
     # TwoColorAlter('tmp')
