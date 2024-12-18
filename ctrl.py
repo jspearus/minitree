@@ -113,7 +113,7 @@ def ThreeColorAlter(color1, color2, color3, step):
         
         
 def off():
-    for i in range(140, 0, -1):
+    for i in range(140, -1, -1):
         port.write(str.encode(f"1,{i},0,0,0#"))
         port.write(str.encode("show1#"))
         time.sleep(.01)
