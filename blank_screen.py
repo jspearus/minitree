@@ -23,6 +23,8 @@ oled.begin()
 
 def blankScreen():
     # Clear display.
+    off()
+    off()
     oled.clear()
     oled.display()
 
@@ -49,8 +51,6 @@ def blankScreen():
     # Display image.
     oled.image(image)
     oled.display()
-    off()
-    off()
 
 if __name__ == '__main__':
     blankScreen()

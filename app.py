@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from waitress import serve
 import threading
-import os, time
+import os, time, subprocess
 from datetime import datetime
 from datetime import timedelta
 import json
@@ -88,7 +88,10 @@ def syscom(command):
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = IP = subprocess.check_output(cmd, shell = True ).decode('ASCII')
     # todo create reboot and shutdown functions
-    print(command)
+    if command == 'reboot':
+        subprocess.run(["sudo", "reboot", "now"], check=True)
+    elif command == 'shutdown':
+        subprocess.run(["sudo", "shutdown", "now"], check=True)
     return render_template('system.html', IP=IP, PORT=PORT)
 
 # ####################### Themes #####################
