@@ -1,4 +1,4 @@
-themes
-events
-__pycache__
+themes/
+events/
+__pycache__/
 config.json
