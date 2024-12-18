@@ -2,5 +2,6 @@
     "current_theme": "red",
     "display_status": "on",
     "auto_mode": "on",
-    "led_type": "rgb"
+    "led_type": "RGB",
+    "FILE_PATH": "/home/mini/minitree/"
 }
