@@ -50,6 +50,7 @@ def blankScreen():
     oled.image(image)
     oled.display()
     off()
+    off()
 
 if __name__ == '__main__':
     blankScreen()
