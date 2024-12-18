@@ -7,8 +7,8 @@
     <div>
         <h1>Theme List</h1>
         {%for theme in themes %}
-        <h2>{{theme}}</h2>
         {%if theme != 'off'%}
+        <h2>{{theme}}</h2>
         <a href="/edittheme/{{theme}}">Edit</a>
         {%endif%}
         {%endfor%}
