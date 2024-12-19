@@ -5,8 +5,6 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import subprocess, time
-from config import get_config
 from ctrl import off
 
 numb = 1
