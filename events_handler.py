@@ -5,8 +5,7 @@ import os
 import json
 
 
-from ctrl import displayTheme, off
-from theme_handler import get_all_themes
+from ctrl import displayTheme
 from config import get_config, edit_config
 
 connected = True

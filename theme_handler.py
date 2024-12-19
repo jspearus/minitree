@@ -2,6 +2,7 @@ import json
 import os
 from config import get_config
 
+
 ledType = ''
 
 def update_config():
@@ -50,24 +51,18 @@ def get_all_themes():
     return themes
         
 def delete_theme(name):
+    from events_handler import get_all_events, delete_event
     config = get_config()
+    events = get_all_events()
     file_path = config['FILE_PATH']
     file = f"{file_path}themes/{name}.json"
     if file:
+        for event in events:
+            if event['themeSelect'] == name:
+                delete_event(event['name'])
         os.remove(file)
             
 if __name__ == '__main__':
-    tmp = {
-        "pattern": "multicolor",
-        "numOfColor":2,
-        "numPerGroup":1,
-        "color 1": "0,100,0",
-        "color 2": "100,0,0"
-    }
-    tmp2 = {
-        "pattern": "solid",
-        "color": "0,100,0",
-    }
     # create_theme(tmp2)
     # print(get_theme("tmp"))
     # print(get_config())
