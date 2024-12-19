@@ -10,9 +10,11 @@
             <input type="text" id="name" name="name" value="{{event.name}}" required>
         </div>
         <select id="themeSelect" name="themeSelect" value="off">
-            {% for theme in themes %}
             <option value="{{ event.themeSelect}}" selected>{{ event.themeSelect}}</option>
+            {% for theme in themes %}
+            {% if theme != event.themeSelect %}
             <option value="{{ theme}}">{{ theme}}</option>
+            {% endif %}
             {% endfor %}
         </select>
         <label for="freq">Select Frequency:</label>

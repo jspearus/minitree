@@ -56,8 +56,9 @@ def convert2rgb(file, key):
 
 def displayTheme(file):
     themes = getThemeList()
-    print(f'theme: {get_theme(file)}')
-    if file in themes:
+    if file == 'off':
+        off()
+    elif file in themes:
         print(get_theme(file))
         theme = get_theme(file)
         if theme['pattern'] == 'solid':
@@ -71,8 +72,6 @@ def displayTheme(file):
             ThreeColorAlter(convert2rgb(theme, 'color1'), convert2rgb(theme, 'color2'), 
                           convert2rgb(theme, 'color3'), int(theme['numPerGroup']))
         print(f"new: {theme}")
-    if file == 'off':
-        off()
         
 def SolidColor(color):
     for i in range(140):
